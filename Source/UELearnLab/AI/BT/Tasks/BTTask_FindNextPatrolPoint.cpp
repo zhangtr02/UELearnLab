@@ -1,10 +1,10 @@
 
 
 
-#include "AI/BT/BTTask_FindNextPatrolPoint.h"
+#include "BTTask_FindNextPatrolPoint.h"
 
 #include "AIController.h"
-#include "AI/AICharacter.h"
+#include "AI/Characters/AICharacterBase.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Engine/TargetPoint.h"
 
@@ -28,7 +28,7 @@ EBTNodeResult::Type UBTTask_FindNextPatrolPoint::ExecuteTask(UBehaviorTreeCompon
 		return EBTNodeResult::Failed;
 	}
 
-	AAICharacter* AICharacter = Cast<AAICharacter>(ControlledPawn);
+	AAICharacterBase* AICharacter = Cast<AAICharacterBase>(ControlledPawn);
 	if (!AICharacter)
 	{
 		return EBTNodeResult::Failed;

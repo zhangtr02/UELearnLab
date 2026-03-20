@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "AICharacter.generated.h"
+#include "AICharacterBase.generated.h"
 
 class ATargetPoint;
 
 UCLASS()
-class UELEARNLAB_API AAICharacter : public ACharacter
+class UELEARNLAB_API AAICharacterBase : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	AAICharacter();
+	AAICharacterBase();
 	
 	UPROPERTY(EditInstanceOnly, Category="AI")
 	TArray<ATargetPoint*> PatrolPoints;
