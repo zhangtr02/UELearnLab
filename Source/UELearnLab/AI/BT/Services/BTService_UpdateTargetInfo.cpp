@@ -3,7 +3,7 @@
 
 #include "AI/BT/Services/BTService_UpdateTargetInfo.h"
 
-#include "AIController.h"
+#include "AI/Controllers/AIControllerBase.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 UBTService_UpdateTargetInfo::UBTService_UpdateTargetInfo()
@@ -28,15 +28,9 @@ UBTService_UpdateTargetInfo::UBTService_UpdateTargetInfo()
 void UBTService_UpdateTargetInfo::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
-	
-	const AAIController* AIController = OwnerComp.GetAIOwner();
-	if (!AIController)
-	{
-		return;
-	}
 
-	const APawn* ControlledPawn = AIController->GetPawn();
-	if (!ControlledPawn)
+	const AAIControllerBase* AIController = Cast<AAIControllerBase>(OwnerComp.GetAIOwner());
+	if (!AIController)
 	{
 		return;
 	}
@@ -47,19 +41,17 @@ void UBTService_UpdateTargetInfo::TickNode(UBehaviorTreeComponent& OwnerComp, ui
 		return;
 	}
 
-	UObject* TargetObject = BlackboardComp->GetValueAsObject(TargetActorKey.SelectedKeyName);
-	const AActor* TargetActor = Cast<AActor>(TargetObject);
-
-	if (!TargetActor)
+	if (AActor* TargetActor = AIController->GetCurrentTargetActor())
 	{
-		BlackboardComp->SetValueAsFloat(DistanceToTargetKey.SelectedKeyName, NoTargetDistance);
-		return;
+		BlackboardComp->SetValueAsObject(TargetActorKey.SelectedKeyName, TargetActor);
+	}
+	else
+	{
+		BlackboardComp->ClearValue(TargetActorKey.SelectedKeyName);
 	}
 
-	const float Distance = FVector::Dist(
-		ControlledPawn->GetActorLocation(),
-		TargetActor->GetActorLocation()
+	BlackboardComp->SetValueAsFloat(
+		DistanceToTargetKey.SelectedKeyName,
+		AIController->GetDistanceToTarget(NoTargetDistance)
 	);
-
-	BlackboardComp->SetValueAsFloat(DistanceToTargetKey.SelectedKeyName, Distance);
 }

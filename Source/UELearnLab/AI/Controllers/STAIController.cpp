@@ -1,4 +1,5 @@
 #include "AI/Controllers/STAIController.h"
+
 #include "GameplayStateTreeModule/Public/Components/StateTreeAIComponent.h"
 
 ASTAIController::ASTAIController()
@@ -14,9 +15,4 @@ void ASTAIController::OnPossess(APawn* InPawn)
 	{
 		StateTreeAIComponent->StartLogic();
 	}
-}
-
-void ASTAIController::OnTargetActorUpdated(AActor* NewTargetActor)
-{
-	UE_LOG(LogTemp, Warning, TEXT("STAIController Target Updated: %s"), *GetNameSafe(NewTargetActor));
 }

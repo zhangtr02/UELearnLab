@@ -18,6 +18,8 @@ protected:
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void OnTargetActorUpdated(AActor* NewTargetActor) override;
 
+	void SyncTargetActorToBlackboard(AActor* NewTargetActor);
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI|BT")
 	TObjectPtr<UBehaviorTree> BehaviorTreeAsset;

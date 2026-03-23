@@ -14,12 +14,8 @@ class UELEARNLAB_API ASTAIController : public AAIControllerBase
 public:
 	ASTAIController();
 
-	UFUNCTION(BlueprintCallable, Category = "AI|ST")
-	AActor* GetCurrentTargetActor() const { return CurrentTargetActor; }
-
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
-	virtual void OnTargetActorUpdated(AActor* NewTargetActor) override;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI|ST")

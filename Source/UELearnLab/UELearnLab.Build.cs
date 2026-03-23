@@ -25,19 +25,19 @@ public class UELearnLab : ModuleRules
 
 		PublicIncludePaths.AddRange(new string[] {
 			"UELearnLab",
-			"UELearnLab/Variant_Platforming",
-			"UELearnLab/Variant_Platforming/Animation",
-			"UELearnLab/Variant_Combat",
-			"UELearnLab/Variant_Combat/AI",
-			"UELearnLab/Variant_Combat/Animation",
-			"UELearnLab/Variant_Combat/Gameplay",
-			"UELearnLab/Variant_Combat/Interfaces",
-			"UELearnLab/Variant_Combat/UI",
-			"UELearnLab/Variant_SideScrolling",
-			"UELearnLab/Variant_SideScrolling/AI",
-			"UELearnLab/Variant_SideScrolling/Gameplay",
-			"UELearnLab/Variant_SideScrolling/Interfaces",
-			"UELearnLab/Variant_SideScrolling/UI"
+			"UELearnLab/Variant/Variant_Platforming",
+			"UELearnLab/Variant/Variant_Platforming/Animation",
+			"UELearnLab/Variant/Variant_Combat",
+			"UELearnLab/Variant/Variant_Combat/AI",
+			"UELearnLab/Variant/Variant_Combat/Animation",
+			"UELearnLab/Variant/Variant_Combat/Gameplay",
+			"UELearnLab/Variant/Variant_Combat/Interfaces",
+			"UELearnLab/Variant/Variant_Combat/UI",
+			"UELearnLab/Variant/Variant_SideScrolling",
+			"UELearnLab/Variant/Variant_SideScrolling/AI",
+			"UELearnLab/Variant/Variant_SideScrolling/Gameplay",
+			"UELearnLab/Variant/Variant_SideScrolling/Interfaces",
+			"UELearnLab/Variant/Variant_SideScrolling/UI"
 		});
 
 		// Uncomment if you are using Slate UI

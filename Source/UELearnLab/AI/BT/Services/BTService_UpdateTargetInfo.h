@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AI/Common/AIConstants.h"
 #include "BehaviorTree/BTService.h"
 #include "BTService_UpdateTargetInfo.generated.h"
 
@@ -17,14 +18,14 @@ public:
 	
 protected:
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
-	
-public:
-	UPROPERTY(EditAnywhere, Category="Blackboard")
+
+protected:
+	UPROPERTY(EditAnywhere, Category = "Blackboard")
 	FBlackboardKeySelector TargetActorKey;
-	
-	UPROPERTY(EditAnywhere, Category="Blackboard")
+
+	UPROPERTY(EditAnywhere, Category = "Blackboard")
 	FBlackboardKeySelector DistanceToTargetKey;
-	
-	UPROPERTY(EditAnywhere, Category="AI")
-	float NoTargetDistance = 999999.0f;
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+	float NoTargetDistance = UELearnLabAI::InvalidTargetDistance;
 };

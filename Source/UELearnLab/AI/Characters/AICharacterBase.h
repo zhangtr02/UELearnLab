@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -15,9 +13,14 @@ class UELEARNLAB_API AAICharacterBase : public ACharacter
 
 public:
 	AAICharacterBase();
-	
-	UPROPERTY(EditInstanceOnly, Category="AI")
-	TArray<ATargetPoint*> PatrolPoints;
-	
+
+	bool TryGetNextPatrolLocation(FVector& OutPatrolLocation);
+	void ResetPatrolRoute();
+
+protected:
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "AI|Patrol")
+	TArray<TObjectPtr<ATargetPoint>> PatrolPoints;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "AI|Patrol")
 	int32 CurrentPatrolIndex = 0;
 };

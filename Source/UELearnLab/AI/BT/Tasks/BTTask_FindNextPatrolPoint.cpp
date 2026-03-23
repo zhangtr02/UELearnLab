@@ -1,12 +1,9 @@
 
+#include "AI/BT/Tasks/BTTask_FindNextPatrolPoint.h"
 
-
-#include "BTTask_FindNextPatrolPoint.h"
-
-#include "AIController.h"
 #include "AI/Characters/AICharacterBase.h"
+#include "AI/Controllers/AIControllerBase.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Engine/TargetPoint.h"
 
 UBTTask_FindNextPatrolPoint::UBTTask_FindNextPatrolPoint()
 {
@@ -16,42 +13,17 @@ UBTTask_FindNextPatrolPoint::UBTTask_FindNextPatrolPoint()
 
 EBTNodeResult::Type UBTTask_FindNextPatrolPoint::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	const AAIController* AIController = OwnerComp.GetAIOwner();
+	const AAIControllerBase* AIController = Cast<AAIControllerBase>(OwnerComp.GetAIOwner());
 	if (!AIController)
 	{
 		return EBTNodeResult::Failed;
 	}
 
-	APawn* ControlledPawn = AIController->GetPawn();
-	if (!ControlledPawn)
-	{
-		return EBTNodeResult::Failed;
-	}
-
-	AAICharacterBase* AICharacter = Cast<AAICharacterBase>(ControlledPawn);
+	AAICharacterBase* AICharacter = AIController->GetControlledAICharacter();
 	if (!AICharacter)
 	{
 		return EBTNodeResult::Failed;
 	}
-
-	const int32 NumPatrolPoints = AICharacter->PatrolPoints.Num();
-	if (NumPatrolPoints <= 0)
-	{
-		return EBTNodeResult::Failed;
-	}
-	
-	if (!AICharacter->PatrolPoints.IsValidIndex(AICharacter->CurrentPatrolIndex))
-	{
-		AICharacter->CurrentPatrolIndex = 0;
-	}
-
-	const ATargetPoint* PatrolPointActor = AICharacter->PatrolPoints[AICharacter->CurrentPatrolIndex];
-	if (!PatrolPointActor)
-	{
-		return EBTNodeResult::Failed;
-	}
-
-	const FVector PatrolLocation = PatrolPointActor->GetActorLocation();
 
 	UBlackboardComponent* BlackboardComp = OwnerComp.GetBlackboardComponent();
 	if (!BlackboardComp)
@@ -59,9 +31,12 @@ EBTNodeResult::Type UBTTask_FindNextPatrolPoint::ExecuteTask(UBehaviorTreeCompon
 		return EBTNodeResult::Failed;
 	}
 
-	BlackboardComp->SetValueAsVector(PatrolLocationKey.SelectedKeyName, PatrolLocation);
-	
-	AICharacter->CurrentPatrolIndex = (AICharacter->CurrentPatrolIndex + 1) % NumPatrolPoints;
+	FVector PatrolLocation = FVector::ZeroVector;
+	if (!AICharacter->TryGetNextPatrolLocation(PatrolLocation))
+	{
+		return EBTNodeResult::Failed;
+	}
 
+	BlackboardComp->SetValueAsVector(PatrolLocationKey.SelectedKeyName, PatrolLocation);
 	return EBTNodeResult::Succeeded;
 }

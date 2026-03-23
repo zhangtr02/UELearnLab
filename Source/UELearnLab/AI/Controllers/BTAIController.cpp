@@ -9,13 +9,21 @@ void ABTAIController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 
-	if (BehaviorTreeAsset)
+	if (!BehaviorTreeAsset)
 	{
-		RunBehaviorTree(BehaviorTreeAsset);
+		return;
 	}
+
+	RunBehaviorTree(BehaviorTreeAsset);
+	SyncTargetActorToBlackboard(GetCurrentTargetActor());
 }
 
 void ABTAIController::OnTargetActorUpdated(AActor* NewTargetActor)
+{
+	SyncTargetActorToBlackboard(NewTargetActor);
+}
+
+void ABTAIController::SyncTargetActorToBlackboard(AActor* NewTargetActor)
 {
 	UBlackboardComponent* BlackboardComp = GetBlackboardComponent();
 	if (!BlackboardComp)

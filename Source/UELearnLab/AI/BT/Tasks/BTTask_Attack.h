@@ -17,4 +17,8 @@ public:
 	
 protected:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+
+protected:
+	UPROPERTY(EditAnywhere, Category = "AI")
+	float DebugMessageTime = 1.5f;
 };
