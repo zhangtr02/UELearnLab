@@ -15,11 +15,6 @@ UBTService_UpdatePerceptionState::UBTService_UpdatePerceptionState()
 		AActor::StaticClass()
 	);
 
-	DistanceToTargetKey.AddFloatFilter(
-		this,
-		GET_MEMBER_NAME_CHECKED(UBTService_UpdatePerceptionState, DistanceToTargetKey)
-	);
-
 	LastKnownTargetLocationKey.AddVectorFilter(
 		this,
 		GET_MEMBER_NAME_CHECKED(UBTService_UpdatePerceptionState, LastKnownTargetLocationKey)
@@ -70,11 +65,7 @@ void UBTService_UpdatePerceptionState::TickNode(UBehaviorTreeComponent& OwnerCom
 			AIController->GetLastKnownTargetLocation(FVector::ZeroVector)
 		);
 	}
-
-	BlackboardComp->SetValueAsFloat(
-		DistanceToTargetKey.SelectedKeyName,
-		AIController->GetDistanceToTarget(NoTargetDistance)
-	);
+	
 	BlackboardComp->SetValueAsBool(CanSeeTargetKey.SelectedKeyName, TargetInfo.bCanSeeTarget);
 	BlackboardComp->SetValueAsBool(HasHeardTargetKey.SelectedKeyName, TargetInfo.bHasHeardTarget);
 }

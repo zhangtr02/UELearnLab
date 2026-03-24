@@ -1,34 +1,37 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AI/Common/AIConstants.h"
 #include "BehaviorTree/BTService.h"
-#include "BTService_UpdatePerceptionState.generated.h"
+#include "BTService_UpdateNavigationState.generated.h"
+
+class UNavigationPath;
 
 UCLASS()
-class UELEARNLAB_API UBTService_UpdatePerceptionState : public UBTService
+class UELEARNLAB_API UBTService_UpdateNavigationState : public UBTService
 {
 	GENERATED_BODY()
 
 public:
-	UBTService_UpdatePerceptionState();
+	UBTService_UpdateNavigationState();
 
 protected:
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
+
+	float CalculatePathLength(const UNavigationPath* NavigationPath) const;
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Blackboard")
 	FBlackboardKeySelector TargetActorKey;
 
 	UPROPERTY(EditAnywhere, Category = "Blackboard")
-	FBlackboardKeySelector LastKnownTargetLocationKey;
+	FBlackboardKeySelector ReachableTargetLocationKey;
 
 	UPROPERTY(EditAnywhere, Category = "Blackboard")
-	FBlackboardKeySelector CanSeeTargetKey;
+	FBlackboardKeySelector CanReachTargetKey;
 
 	UPROPERTY(EditAnywhere, Category = "Blackboard")
-	FBlackboardKeySelector HasHeardTargetKey;
+	FBlackboardKeySelector PathLengthKey;
 
-	UPROPERTY(EditAnywhere, Category = "AI")
-	float NoTargetDistance = UELearnLabAI::InvalidTargetDistance;
+	UPROPERTY(EditAnywhere, Category = "Navigation")
+	float InvalidPathLength = -1.0f;
 };
