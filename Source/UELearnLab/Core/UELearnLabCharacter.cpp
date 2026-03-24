@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Perception/AISense_Hearing.h"
 #include "UELearnLab.h"
 
 AUELearnLabCharacter::AUELearnLabCharacter()
@@ -56,8 +57,8 @@ void AUELearnLabCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		
 		// Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &AUELearnLabCharacter::DoJumpStart);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AUELearnLabCharacter::DoJumpEnd);
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AUELearnLabCharacter::Move);
@@ -122,12 +123,23 @@ void AUELearnLabCharacter::DoLook(float Yaw, float Pitch)
 
 void AUELearnLabCharacter::DoJumpStart()
 {
-	// signal the character to jump
 	Jump();
+	ReportAINoise(1.0f, 0.0f, TEXT("Jump"));
 }
 
 void AUELearnLabCharacter::DoJumpEnd()
 {
-	// signal the character to stop jumping
 	StopJumping();
+}
+
+void AUELearnLabCharacter::ReportAINoise(const float Loudness, const float MaxRange, const FName Tag)
+{
+	UAISense_Hearing::ReportNoiseEvent(
+		GetWorld(),
+		GetActorLocation(),
+		Loudness,
+		this,
+		MaxRange,
+		Tag
+	);
 }

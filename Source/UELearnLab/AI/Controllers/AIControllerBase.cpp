@@ -64,16 +64,18 @@ void AAIControllerBase::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus
 		return;
 	}
 
+	ProcessTargetPerception(Actor, Stimulus);
+}
+
+void AAIControllerBase::ProcessTargetPerception(AActor* Actor, const FAIStimulus& Stimulus)
+{
 	if (Stimulus.WasSuccessfullySensed())
 	{
 		SetCurrentTargetActor(Actor);
 	}
-	else
+	else if (CurrentTargetActor == Actor)
 	{
-		if (CurrentTargetActor == Actor)
-		{
-			SetCurrentTargetActor(nullptr);
-		}
+		SetCurrentTargetActor(nullptr);
 	}
 }
 

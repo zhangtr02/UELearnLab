@@ -85,6 +85,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
 
+	UFUNCTION(BlueprintCallable, Category = "AI|Perception")
+	virtual void ReportAINoise(
+		float Loudness = 1.0f,
+		float MaxRange = 0.0f,
+		FName Tag = TEXT("PlayerNoise")
+	);
+
 public:
 
 	/** Returns CameraBoom subobject **/

@@ -32,6 +32,7 @@ protected:
 
 	void InitializeSightConfig();
 	void SetCurrentTargetActor(AActor* NewTargetActor);
+	virtual void ProcessTargetPerception(AActor* Actor, const FAIStimulus& Stimulus);
 
 	virtual void OnTargetActorUpdated(AActor* NewTargetActor);
 	virtual bool IsValidTargetActor(AActor* Actor) const;

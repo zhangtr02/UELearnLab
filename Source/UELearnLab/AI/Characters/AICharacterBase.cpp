@@ -7,6 +7,9 @@ AAICharacterBase::AAICharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+	
+	GetMesh()->SetRelativeLocation(FVector(0.0f, 0.0f, -90.0f));
+	GetMesh()->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 }
 
 bool AAICharacterBase::TryGetNextPatrolLocation(FVector& OutPatrolLocation)
