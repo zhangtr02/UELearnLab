@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AI/Team/Types/TeamTypes.h"
+#include "GenericTeamAgentInterface.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "UELearnLabCharacter.generated.h"
@@ -19,7 +21,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
  *  Implements a controllable orbiting camera
  */
 UCLASS(abstract)
-class AUELearnLabCharacter : public ACharacter
+class AUELearnLabCharacter : public ACharacter, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
 
@@ -92,6 +94,8 @@ public:
 		FName Tag = TEXT("PlayerNoise")
 	);
 
+	virtual FGenericTeamId GetGenericTeamId() const override;
+
 public:
 
 	/** Returns CameraBoom subobject **/
@@ -99,5 +103,9 @@ public:
 
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI|Team")
+	ETeamLabId TeamId = ETeamLabId::Neutral;
 };
 

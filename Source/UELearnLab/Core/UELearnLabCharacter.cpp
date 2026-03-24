@@ -143,3 +143,8 @@ void AUELearnLabCharacter::ReportAINoise(const float Loudness, const float MaxRa
 		Tag
 	);
 }
+
+FGenericTeamId AUELearnLabCharacter::GetGenericTeamId() const
+{
+	return UELearnLabTeam::ToGenericTeamId(TeamId);
+}
